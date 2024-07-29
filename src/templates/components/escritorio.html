@@ -1,0 +1,146 @@
+<main class="p-4 bg-white rounded shadow-md">
+    <h2 class="mb-4 text-2xl font-bold">Bienvenido {{ session['user_name'] }}</h2>
+    <div style="gap: 15px;" class="grid justify-between grid-cols-4 gap-4 p-4">
+        <div class="w-1/4 px-4 py-4 m-2 text-white bg-gray-800 hover:bg-red-700 rounded-xl">
+            <div style="    display: flex;
+                align-content: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                height: 100%;">
+                <h3 class="text-xl font-bold">Ventas de hoy</h3>
+                <p class="text-2xl font-bold ">Total: ${{ Tventas }}</p>
+            </div>
+        </div>
+        <div class="w-1/4 px-4 py-4 m-2 text-white bg-gray-800 hover:bg-sky-700 rounded-xl">
+            <div style="    display: flex;
+                align-content: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                height: 100%;">
+                <h3 class="text-xl font-bold">Ventas de la semana</h3>
+                <p class="text-2xl font-bold">Total: ${{ TventasSemana }}</p>
+            </div>
+        </div>
+        <div class="w-1/4 px-4 py-4 m-2 text-white bg-gray-800 hover:bg-sky-700 rounded-xl">
+            <div style="    display: flex;
+                align-content: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                height: 100%;">
+                <h3 class="text-xl font-bold">Pagos de hoy</h3>
+                <p class="text-2xl font-bold">Total: ${{ TpagosHoy }}</p>
+            </div>
+        </div>
+        <div class="w-1/4 px-4 py-4 m-2 text-white bg-gray-800 hover:bg-sky-700 rounded-xl">
+            <div style="    display: flex;
+                align-content: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                height: 100%;">
+                <h3 class="text-xl font-bold">Pagos de la semana</h3>
+                <p class="text-2xl font-bold">Total: ${{ TpagosSemana }}</p>
+            </div>
+        </div>
+        <div class="w-1/4 px-4 py-4 m-2 text-white bg-gray-800 hover:bg-sky-700 rounded-xl">
+            <div style="    display: flex;
+                align-content: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                height: 100%;">
+                <h3 class="text-xl font-bold">Eliminados del dia</h3>
+                <p class="text-2xl font-bold">{{ TCEliminadosTotal }} Total: ${{ TEliminadosTotal }}</p>
+            </div>
+        </div>
+        <div class="w-1/4 px-4 py-4 m-2 text-white bg-gray-800 hover:bg-sky-700 rounded-xl">
+            <div style="    display: flex;
+                align-content: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                height: 100%;">
+                <h3 class="text-xl font-bold">Margen del dia</h3>
+                <p class="text-2xl font-bold">Total: ${{ Tventas-TpagosHoy }}</p>
+            </div>
+        </div>
+        <div class="w-1/4 px-4 py-4 m-2 text-white bg-gray-800 hover:bg-sky-700 rounded-xl">
+            <div style="    display: flex;
+                align-content: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                height: 100%;">
+                <h3 class="text-xl font-bold">Margen de la Semana</h3>
+                <p class="text-2xl font-bold">Total: ${{ TventasSemana-TpagosSemana }}</p>
+            </div>
+        </div>
+        <div class="w-1/4 px-4 py-4 m-2 text-white bg-gray-800 hover:bg-sky-700 rounded-xl">
+            <div style="    display: flex;
+                align-content: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                height: 100%;">
+                <h3 class="text-xl font-bold">Premios del Dia</h3>
+                <p class="text-2xl font-bold">Total: ${{ PremiosHoy }}</p>
+            </div>
+        </div>
+        <div class="w-1/4 px-4 py-4 m-2 text-white bg-gray-800 hover:bg-sky-700 rounded-xl">
+            <div style="    display: flex;
+                align-content: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                height: 100%;">
+                <h3 class="text-xl font-bold">Premios de la semana</h3>
+                <p class="text-2xl font-bold">Total: ${{ PremiosSemana }}</p>
+            </div>
+        </div>
+        <div class="w-1/4 px-4 py-4 m-2 text-white bg-gray-800 hover:bg-sky-700 rounded-xl">
+            <div style="    display: flex;
+                align-content: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                height: 100%;">
+                <h3 class="text-xl font-bold">Premios Caducados</h3>
+                <p class="text-2xl font-bold">Total: ${{ PremiosCaducados }}</p>
+            </div>
+        </div>
+    </div>
+    {% if 'ven' not in user_roles %}
+        <div>
+            <h3 class="mb-4 text-xl font-semibold text-black">Estadisticas</h3>
+            <div class="overflow-x-auto bg-white rounded shadow-md tableShop">
+                <table id="ventaDiaria" class="min-w-full bg-white">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-2">Id</th>
+                            <th class="px-4 py-2">Nombre</th>
+                            <th class="px-4 py-2">Venta</th>
+                            <th class="px-4 py-2">Venta Semana</th>
+                            <th class="px-4 py-2">Premios</th>
+                            <th class="px-4 py-2">Premio Semana</th>
+                            <th class="px-4 py-2">Premios Caducados</th>
+                            <th class="px-4 py-2">Pagos</th>
+                            <th class="px-4 py-2">Pago Semanal</th>
+                            <th class="px-4 py-2">Margen</th>
+                            <th class="px-4 py-2">Margen Semanal</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align: center;" id="Pagos-premios">
+                        {% for estadistica in estadisticas %}
+                            <tr>
+                                <td class="px-4 py-2">{{ estadistica['id'] }}</td>
+                                <td class="px-4 py-2">{{ estadistica['nombre'] }}</td>
+                                <td class="px-4 py-2">{{ estadistica['Tventa'] }}</td>
+                                <td class="px-4 py-2">{{ estadistica['TvSemana'] }}</td>
+                                <td class="px-4 py-4">{{ estadistica['Tpremios'] }}</td>
+                                <td class="px-4 py-4">{{ estadistica['TpSemana'] }}</td>
+                                <td class="px-4 py-4">{{ estadistica['Pcaducados'] }}</td>
+                                <td class="px-4 py-2">{{ estadistica['Tpagos'] }}</td>
+                                <td class="px-4 py-2">{{ estadistica['TpgSemana'] }}</td>
+                                <td class="px-4 py-2">{{ estadistica['Mdiario'] }}</td>
+                                <td class="px-4 py-2">{{ estadistica['Msemana'] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+</main>

@@ -1,0 +1,397 @@
+<main class="p-4 bg-white rounded shadow-md">
+    <h2 class="mb-4 text-2xl font-semibold">Acerca de Nosotros</h2>
+    <div class="flex mb-4 border-b border-gray-300 tab">
+        <button class="px-4 py-2 text-gray-600 tablinks hover:text-blue-500 focus:outline-none" onclick="openTab(event, 'buscarKey')">Busacar Key</button>
+        <button class="px-4 py-2 text-gray-600 tablinks hover:text-blue-500 focus:outline-none" onclick="openTab(event, 'JuegoDia')">Juego del Dia</button>
+        <button class="px-4 py-2 text-gray-600 tablinks hover:text-blue-500 focus:outline-none" onclick="openTab(event, 'LimiteVenta')">Limites</button>
+        <button class="px-4 py-2 text-gray-600 tablinks hover:text-blue-500 focus:outline-none" onclick="openTab(event, 'RegistroGanador')">Ganadores</button>
+        <button class="px-4 py-2 text-gray-600 tablinks hover:text-blue-500 focus:outline-none" onclick="openTab(event, 'horario')">Horario</button>
+    </div>
+    
+    <div id="JuegoDia" class="p-4 tabcontent">
+        <div id="DiarioJ" class="hidden">
+            <button onclick="CerrarModalDiario()" class="">
+                <svg class="text-red-800 my-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                  </svg>
+            </button>
+            <div>
+                <label id="idEditDiario" for="sele" class="block mb-2 text-sm font-medium text-black dark:text-white">ID</label>
+                <input datepicker id="fechaeditDiario" type="Date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            </div>  
+            <div>
+                <label for="Tipe" class="block mb-2 text-sm font-medium text-black dark:text-white">Seleccione un tipo</label>
+                <select id="tipoeditDiario" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="LTT">Lotto</option>
+                    <option value="LTRIA">Loteria</option>
+                    <option value="LTT+LTRIA">Loto y Loteria</option>
+                </select>
+            </div>
+            <div class="my-4">
+                <button onclick="nuevoDiario()" id="DiarioUA" class="px-4 py-2 font-bold text-black bg-blue-500 rounded hover:bg-blue-700">
+                    Agregar
+                </button>
+            </div>
+        </div>
+        <button onclick="agregarDiario()" class="">
+            <svg class="text-blue-900" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+            </svg>
+        </button>
+        
+        <div class="w-full p-4 text-black bg-white rounded shadow-md">
+            <table class="w-full text-left rounded table-auto">
+                <thead style="border-radius: 15px;" class="bg-blue-200 rounded">
+                    <tr>
+                        <th class="px-4 py-2">ID</th>
+                        <th class="px-4 py-2">Fecha</th>
+                        <th class="px-4 py-2">Tipo</th>
+                        <th class="px-4 py-2">Accion</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;" id="diarios-table-body">
+                    <!-- Los datos se agregarán aquí dinámicamente -->
+                    {% for diarios in Jdiarios %}
+                        <tr>
+                            <td class="px-4 py-2">{{ diarios['id'] }}</td>
+                            <td class="px-4 py-2">{{ diarios['fecha'] }}</td>
+                            <td class="px-4 py-2">{{ diarios['tipo'] }}</td>
+                            <td style="display: flex; justify-content: center; padding:15px" class="px-4">
+                                <button onclick="editarDiario({{ diarios['id'] }})" class="">
+                                    <svg class="text-blue-800 mx-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                      </svg>
+                                </button>
+                                <button onclick="EliminarDiario({{ diarios['id'] }})" class="">
+                                    <svg class="text-red-800 mx-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                      </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="RegistroGanador" class="hidden p-4 tabcontent"> 
+        <div class="hidden w-11/12 p-4 mx-auto my-4 bg-gray-800 rounded-lg justify-items-start" id="Winercreate">
+            <button onclick="CerrarModalGanador()" class="">
+                <svg class="text-red-800 mx-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+                </svg>
+            </button>
+            <div style="margin-bottom: 15px;" class="grid grid-cols-2 gap-4">
+                <div>
+                    <label id="idEdit" for="sele" class="block mb-2 text-sm font-medium text-white dark:text-white">ID</label>
+                    <input datepicker id="fechaedit" type="Date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>  
+                <div>
+                    <label for="Tipe" class="block mb-2 text-sm font-medium text-white dark:text-white">Seleccione un tipo</label>
+                    <select id="tipoedit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="LTT">Lotto</option>
+                        <option value="LTRIA">Loteria</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grid grid-cols-5 gap-4">
+                <div class="relative z-0 w-full mb-5 text-black bg-white rounded group">
+                    <input type="text" name="floating_first_name" id="premio1edit" class="block py-2.5 px-2 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                    <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-green-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Premio 1</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 text-black bg-white rounded group">
+                    <input type="text" name="floating_first_name" id="premio2edit" class="block py-2.5 px-2 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                    <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-green-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Premio 2</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 text-black bg-white rounded group">
+                    <input type="text" name="floating_first_name" id="premio3edit" class="block py-2.5 px-2 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                    <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-green-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Premio 3</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 text-black bg-white rounded group">
+                    <input type="text" name="floating_first_name" id="premio4edit" class="block py-2.5 px-2 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                    <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-green-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Premio 4</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 text-black bg-white rounded group">
+                    <input type="text" name="floating_first_name" id="premio5edit" class="block py-2.5 px-2 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                    <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-green-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Premio 5</label>
+                </div>
+                
+            </div>
+            <div class="grid grid-cols-5 gap-4">
+                <div class="relative z-0 w-full mb-5 text-black bg-white rounded group">
+                    <input type="text" name="floating_first_name" id="premio6edit" class="block py-2.5 px-2 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                    <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-green-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Premio 6</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 text-black bg-white rounded group">
+                    <input type="text" name="floating_first_name" id="premio7edit" class="block py-2.5 px-2 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                    <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-green-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Premio 7</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 text-black bg-white rounded group">
+                    <input type="text" name="floating_first_name" id="premio8edit" class="block py-2.5 px-2 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                    <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-green-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Premio 8</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 text-black bg-white rounded group">
+                    <input type="text" name="floating_first_name" id="premio9edit" class="block py-2.5 px-2 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                    <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-green-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Premio 9</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 text-black bg-white rounded group">
+                    <input type="text" name="floating_first_name" id="premio10edit" class="block py-2.5 px-2 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                    <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-green-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Premio 10</label>
+                </div>
+                
+            </div>
+            <div class="flex justify-end">
+                <button class="px-4 py-2 font-bold text-black bg-blue-500 rounded hover:bg-blue-700" onclick="agregarEditarGanador()">Agregar</button>
+            </div>
+        </div>
+        
+        <button onclick="Agregar()" class="">
+            <svg class="text-blue-900" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+            </svg>
+        </button>
+        <div class="w-full p-4 text-black bg-white rounded shadow-md">
+            <table class="w-full text-left table-auto">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2">ID</th>
+                        <th class="px-4 py-2">Fecha</th>
+                        <th class="px-4 py-2">Tipo</th>
+                        <th class="px-4 py-2">1er Premio</th>
+                        <th class="px-4 py-2">2do Premio</th>
+                        <th class="px-4 py-2">3er Premio</th>
+                        <th class="px-4 py-2">4to Premio</th>
+                        <th class="px-4 py-2">Accion</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;" id="diarios-table-body">
+                    <!-- Los datos se agregarán aquí dinámicamente -->
+                    {% for ganador in ganadores %}
+                        <tr>
+                            <td class="px-4 py-2">{{ ganador['id'] }}</td>
+                            <td class="px-4 py-2">{{ ganador['fecha'] }}</td>
+                            <td class="px-4 py-2">{{ ganador['tipo'] }}</td>
+                            <td class="px-4 py-2">{{ ganador['premio1'] }}</td>
+                            <td class="px-4 py-2">{{ ganador['premio2'] }}</td>
+                            <td class="px-4 py-2">{{ ganador['premio3'] }}</td>
+                            <td class="px-4 py-2">{{ ganador['premio4'] }}</td>
+                            <td style="display: flex; justify-content: center; padding:15px" class="px-4">
+                                <button onclick="editar({{ganador['id']}})">
+                                    <svg class="text-blue-800 mx-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                      </svg>
+                                </button>
+                                <button onclick="elimnarGanadores({{ganador['id']}})" style="margin-left:5px">
+                                    <svg class="text-red-800 mx-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                      </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="LimiteVenta" class="hidden p-4 tabcontent"> 
+
+        <div id="modallimite" class="hidden">
+            <button onclick="cerrarModalLimite()" class="">
+                <svg class="text-red-800" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+                  </svg>
+            </button>
+            <div class="grid grid-cols-4 gap-4 bg-gray-900 rounded">
+                <div class="px-1 py-1">
+                    <label for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">Digitos</label>
+                    <input type="Number" id="DigitoLimite" class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+                <div class="px-1 py-1">
+                    <label for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">Limite</label>
+                    <input type="Number" id="LimiteSaldo" class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+                <div class="px-1 py-1">
+                    <label for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">Local</label>
+                    <select name="LocalLimite" id="localLimite" class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        {% for local in locales %}
+                            <option value="{{ local['id'] }}">{{ local['nombre'] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="px-1 py-1">
+                    <label id="idLimite" for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">ID</label>
+                
+                    <button onclick="guardarLimite()" type="button" class="px-5 py-2.5 gap-1 text-sm font-medium text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg x-bind:class="px-2 text-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
+                            <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
+                            <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
+                        </svg>
+                        Guardar
+                    </button>
+                </div>         
+            </div>
+        </div>
+        <button onclick="AbrirModallimite()" class="">
+            <svg class="text-blue-900" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+            </svg>
+        </button>
+        <div class="w-full p-4 text-black bg-white rounded shadow-md">
+            <table class="w-full text-left table-auto">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2">ID</th>
+                        <th class="px-4 py-2">Digito</th>
+                        <th class="px-4 py-2">Limite</th>
+                        <th class="px-4 py-2">Local</th>
+                        <th class="px-4 py-2">Accion</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;" id="diarios-table-body">
+                    <!-- Los datos se agregarán aquí dinámicamente -->
+                    {% for limite in limites %}
+                        <tr>
+                            <td class="px-4 py-2">{{ limite['id'] }}</td>
+                            <td class="px-4 py-2">{{ limite['digito'] }}</td>
+                            <td class="px-4 py-2">{{ limite['limite'] }}</td>
+                            <td class="px-4 py-2">{{ limite['local_id'] }}</td>
+                            <td style="display: flex; justify-content: center; padding:15px" class="px-4">
+                                <button onclick="editarLimite({{ limite['id'] }})">
+                                    <svg class="text-blue-800 mx-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                    </svg>
+                                </button>
+                                <button style="margin-left:5px">
+                                    <svg class="text-red-800 mx-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="horario" class="hidden p-4 tabcontent">
+        <div id="modalHorario" class="hidden">
+            <button onclick="cerrarModalHorario()" class="">
+                <svg class="text-red-800" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+                </svg>
+            </button>
+            <div class="grid grid-cols-5 gap-4 bg-gray-900 rounded">
+                <div class="px-1 py-1">
+                    <label for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">Digitos</label>
+                    <input type="date" id="fechaHorario" class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+                <div class="px-1 py-1">
+                    <label for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">Limite</label>
+                    <input type="time" id="entradaHora" class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+                <div class="px-1 py-1">
+                    <label for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">Limite</label>
+                    <input type="time" id="salidaHora" class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+                <div class="px-1 py-1">
+                    <label for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">Local</label>
+                    <select name="LocalLimite" id="localHorarios" class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        {% for local in locales %}
+                            <option value="{{ local['id'] }}">{{ local['nombre'] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="px-1 py-1">
+                    <label id="idhorarios" for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">ID</label>
+                
+                    <button onclick="guardarHorario()" type="button" class="px-5 py-2.5 gap-1 text-sm font-medium text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg x-bind:class="px-2 text-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
+                            <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
+                            <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
+                        </svg>
+                        Guardar
+                    </button>
+                </div>         
+            </div>
+            
+        </div> 
+        <button onclick="abirmodalHorario()" class="">
+            <svg class="text-blue-900" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+            </svg>
+        </button>
+        <div class="w-full p-4 text-black bg-white rounded shadow-md">
+            <table class="w-full text-left table-auto">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2">ID</th>
+                        <th class="px-4 py-2">Fecha</th>
+                        <th class="px-4 py-2">Entrada</th>
+                        <th class="px-4 py-2">Salida</th>
+                        <th class="px-4 py-2">Local</th>
+                        <th class="px-4 py-2">Accion</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;" id="diarios-table-body">
+                    <!-- Los datos se agregarán aquí dinámicamente -->
+                    {% for horario in Horarios %}
+                        <tr>
+                            <td class="px-4 py-2">{{ horario['id'] }}</td>
+                            <td class="px-4 py-2">{{ horario['fecha'] }}</td>
+                            <td class="px-4 py-2">{{ horario['hora_entrada'] }}</td>
+                            <td class="px-4 py-2">{{ horario['hora_salida'] }}</td>
+                            <td class="px-4 py-2">{{ horario['local_id'] }}</td>
+                            <td style="display: flex; justify-content: center; padding:15px" class="px-4">
+                                <button onclick="editarHorario({{ horario['id'] }})">
+                                    <svg class="text-blue-800 mx-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                    </svg>
+                                </button>
+                                <button onclick="EliminarHorario({{ horario['id'] }})" style="margin-left:5px">
+                                    <svg class="text-red-800 mx-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="buscarKey" class="hidden p-4 tabcontent"> 
+        <div>
+            <h3 class="mb-4 text-xl font-semibold text-black">Buscar Key por ID</h3>         
+            <div class="mb-4 bucarKey">
+                <input type="text" class="p-2 mb-2 border border-gray-300 rounded datesize" placeholder="buscar id..." id="buscaID">
+                <input class="px-4 py-2 font-bold text-black bg-blue-500 rounded botonpagar hover:bg-blue-700" type="button" value="Buscar" onclick="buscarID()">
+                <p style="color: antiquewhite; font-size:medium" id="consulta"></p>
+            </div>
+        </div>
+        <div class="overflow-x-auto bg-white rounded shadow-md tableShop">
+            <table id="keyshare" class="min-w-full bg-white">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-2">Id</th>
+                        <th class="px-4 py-2">Factura</th>
+                        <th class="px-4 py-2">Total</th>
+                        <th class="px-4 py-2">Fecha</th>
+                        <th class="px-4 py-2">Eliminado</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;" id="Pagos-premios">
+                    <!-- Filas de datos se agregarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>

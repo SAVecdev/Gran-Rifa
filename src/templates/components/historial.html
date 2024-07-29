@@ -1,0 +1,228 @@
+<main class="p-4 bg-white rounded shadow-md">
+    <div class="flex mb-4 border-b border-gray-300 tab">
+        <button class="px-4 py-2 text-gray-600 tablinks hover:text-blue-500 focus:outline-none" onclick="openTab(event, 'HistorialPagos')">Pagos</button>
+        <button class="px-4 py-2 text-gray-600 tablinks hover:text-blue-500 focus:outline-none" onclick="openTab(event, 'HistorialVenta')">Ventas</button>
+        <button class="px-4 py-2 text-gray-600 tablinks hover:text-blue-500 focus:outline-none" onclick="openTab(event, 'HistorialEliminados')">Eliminados</button>
+    </div>
+
+    <div id="HistorialPagos" class="p-4 tabcontent">
+
+        <div>
+            <h3 class="mb-4 text-xl font-semibold text-black">Historial de Pagos</h3>         
+        </div>
+        <div class="overflow-x-auto bg-white rounded shadow-md tableShop">
+            <table id="ventaDiaria" class="min-w-full bg-white">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-2">Id</th>
+                        <th class="px-4 py-2">Usuario</th>
+                        <th class="px-4 py-2">Fecha</th>
+                        <th class="px-4 py-2">Saldo</th>
+                        <th class="px-4 py-2">Premio</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;" id="Pagos-premios">
+                    {% for pagos in pagosdelDia %}
+                        {% if 'ven' in user_roles %}
+                            {% if pagos['user_id'] == session['id'] %}
+                                <tr>
+                                    <td class="px-4 py-2">{{ pagos['id'] }}</td>
+                                    <td>{{ session['user_name'] }}</td>
+                                    <td class="px-4 py-2">{{ pagos['created_at'] }}</td>
+                                    <td class="px-4 py-2">{{ pagos['Saldo'] }}</td>
+                                    <td class="px-4 py-4">{{ pagos['suerte'] }}</td>
+                                </tr>
+                            {% endif %}
+                        {% else %}
+                            <tr>
+                                <td class="px-4 py-2">{{ pagos['id'] }}</td>
+                                <td class="px-4 py-2">{{ pagos['user_id'] }}</td>
+                                <td class="px-4 py-2">{{ pagos['created_at'] }}</td>
+                                <td class="px-4 py-2">{{ pagos['Saldo'] }}</td>
+                                <td class="px-4 py-4">{{ pagos['suerte'] }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>     
+        
+    </div>
+
+    <div id="HistorialVenta" class="hidden p-4 tabcontent">
+
+        <div>
+            <h3 class="mb-4 text-xl font-semibold text-black">Historial de Venta</h3>         
+        </div>
+        <div class="overflow-x-auto bg-white rounded shadow-md tableShop">
+            <table id="ventaDiaria" class="min-w-full bg-white">
+                <thead class="text-white bg-gray-800">
+                    <tr>
+                        <th class="px-4 py-2">Id</th>
+                        <th class="px-4 py-2">Usuario</th>
+                        <th class="px-4 py-2">Total</th>
+                        <th class="px-4 py-2">Fecha</th>
+                        <th class="px-4 py-2">Hora</th>
+                        <th class="px-4 py-2">Acción</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;" id="Pagos-premios">
+                    {% for venta in ventadelDia %}
+                        {% if 'ven' in user_roles %}
+                            {% if venta['p_venta_id'] == session['p_venta_id'] %}
+                                <tr>
+                                    <td class="px-4 py-2">{{ venta['id'] }}</td>
+                                    <td>{{ session['user_name'] }}</td>
+                                    <td class="px-4 py-2">{{ venta['fecha'] }}</td>
+                                    <td class="px-4 py-2">{{ venta['hora'] }}</td>
+                                    <td>
+                                        <button onclick="openReimpresion({{venta['Factura']}})" class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16">
+                                                <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1"/>
+                                                <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
+                                            </svg>
+                                        </button>
+                                        <button onclick="eliminar({{venta['id']}})" style="margin-left:15px" class="px-4 py-2 font-bold text-white bg-red-400 rounded hover:bg-blue-700">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" style="display: none; margin-left:5px; margin-right:5px" id="D-{{venta['id']}}" class="detallesVenta">
+                                        <table style="width: 98%; margin:15px" >
+                                            <thead class="bg-red-200 ">
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Tipo</th>
+                                                    <th>Fecha</th>
+                                                    <th>Valor</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="bg-red-200">
+                                                {% for producto in DetalleVenta %}
+                                                    {% if producto['tiket_id'] == venta['id'] %}
+                                                        <tr>
+                                                            <td>{{ producto['id'] }}</td>
+                                                            <td>{{ producto['tipo'] }}</td>
+                                                            <td>{{ producto['fecha'] }}</td>
+                                                            <td>${{ producto['valor'] }}</td>
+                                                            <td>{{ producto['cantidad'] }}</td>
+                                                            <td>${{ producto['valor']*producto['cantidad'] }}</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% else %}
+                            <tr class="hover:text-blue-500" onclick="toggleDetails({{ venta['id']}})">
+                                <td class="px-4 py-2">{{ venta['id'] }}</td>
+                                <td class="px-4 py-2">{{ venta['user_id'] }}</td>
+                                <td class="py-2 px4">{{ venta['total'] }}</td>
+                                <td class="px-4 py-2">{{ venta['fecha'] }}</td>
+                                <td class="px-4 py-2">{{ venta['hora'] }}</td>
+                                <td>
+                                    <button onclick="openReimpresion({{venta['Factura']}})" class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16">
+                                            <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1"/>
+                                            <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
+                                        </svg>
+                                    </button>
+                                    <button onclick="eliminar({{venta['id']}})" style="margin-left:15px" class="px-4 py-2 font-bold text-white bg-red-400 rounded hover:bg-blue-700">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" style="display: none; margin-left:5px; margin-right:5px" id="D-{{venta['id']}}" class="detallesVenta">
+                                    <table style="width: 98%; margin:15px" >
+                                        <thead class="bg-red-200 ">
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Tipo</th>
+                                                <th>Fecha</th>
+                                                <th>Valor</th>
+                                                <th>Cantidad</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-red-200">
+                                            {% for producto in DetalleVenta %}
+                                                {% if producto['tiket_id'] == venta['id'] %}
+                                                    <tr>
+                                                        <td>{{ producto['id'] }}</td>
+                                                        <td>{{ producto['tipo'] }}</td>
+                                                        <td>{{ producto['fecha'] }}</td>
+                                                        <td>${{ producto['valor'] }}</td>
+                                                        <td>{{ producto['cantidad'] }}</td>
+                                                        <td>${{ producto['valor']*producto['cantidad'] }}</td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    
+    </div>
+    
+    <div id="HistorialEliminados" class="hidden p-4 tabcontent">
+        
+        <div>
+            <h3 class="mb-4 text-xl font-semibold text-black">Historial de Eliminados</h3>         
+        </div>
+        <div class="overflow-x-auto bg-white rounded shadow-md tableShop">
+            <table id="ventaDiaria" class="min-w-full bg-white">
+                <thead class="bg-gray-100">
+                    <tr >
+                        <th class="px-4 py-2">Id</th>
+                        <th class="px-4 py-2">Usuario</th>
+                        <th class="px-4 py-2">Factura</th>
+                        <th class="px-4 py-2">Total</th>
+                        <th class="px-4 py-2">Fecha</th>
+                        <th class="px-4 py-2">Hora</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;" id="Pagos-premios">
+                    {% for Eliminado in Eliminados %}
+                        {% if 'ven' in user_roles %}
+                            {% if Eliminado['p_venta_id'] == session['p_venta_id'] %}
+                                <tr onclick="toggleDetails({{ Eliminado['id']}})">
+                                    <td class="px-4 py-2">{{ Eliminado['id'] }}</td>
+                                    <td>{{ session['user_name'] }}</td>
+                                    <td class="px-4 py-2">{{ Eliminado['Factura'] }}</td>
+                                    <td class="px-4 py-2">{{ Eliminado['total']}}</td>
+                                    <td class="px-4 py-2">{{ Eliminado['fecha'] }}</td>
+                                    <td class="px-4 py-2">{{ Eliminado['hora'] }}</td>
+                                </tr>
+                            {% endif %}
+                        {% else %}
+                            <tr>
+                                <td class="px-4 py-2">{{ Eliminado['id'] }}</td>
+                                <td class="px-4 py-2">{{ Eliminado['user_id'] }}</td>
+                                <td class="px-4 py-2">{{ Eliminado['Factura'] }}</td>
+                                <td class="px-4 py-2">{{ Eliminado['total']}}</td>
+                                <td class="px-4 py-2">{{ Eliminado['fecha'] }}</td>
+                                <td class="px-4 py-2">{{ Eliminado['hora'] }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+</main>

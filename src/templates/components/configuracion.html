@@ -1,0 +1,366 @@
+<main class="p-4 bg-white rounded shadow-md">
+    <h2 class="mb-4 text-2xl font-semibold">Acerca de Nosotros</h2>
+    <div class="flex mb-4 border-b border-gray-300 tab">
+        <button class="px-4 py-2 text-gray-600 tablinks hover:text-blue-500 focus:outline-none" onclick="openTab(event, 'Locales')">Locales</button>
+        <button class="px-4 py-2 text-gray-600 tablinks hover:text-blue-500 focus:outline-none" onclick="openTab(event, 'GestionUsuario')">Gestion de Usuario</button>
+    </div>
+    <div style="width:max-content; border-radius: 10px;" class="w-auto bg-gray-900 rounded-sm">
+        <div id="formMatriz" class="hidden formularioUser">
+            <button onclick="esconderLosFormularios()" class="m-4">
+                <svg class="text-red-800" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+                </svg>
+            </button>
+            <div class="grid grid-cols-2">
+                <div class="px-1 py-1">
+                    <label for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">Nombre Matriz</label>
+                    <input type="text" id="nombreDistrito" class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+                <div class="px-1 py-1">
+                    <label id="idMatriz" for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">ID</label>
+                    <button onclick="guardarMatriz()" type="button" class="px-5 py-2.5 gap-1 text-sm font-medium text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg x-bind:class="px-2 text-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
+                            <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
+                            <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
+                        </svg>
+                        Guardar
+                    </button>
+                </div>   
+            </div>
+        </div>
+        <div id="formLocal" class="hidden formularioUser">
+            <button onclick="esconderLosFormularios()" class="m-4">
+                <svg class="text-red-800" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+                </svg>
+            </button>
+            <div class="grid grid-cols-3">
+                <div class="px-1 py-1">
+                    <label for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">Nombre Local</label>
+                    <input type="text" id="nombreLocal" class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+                <div class="px-1 py-1">
+                    <label for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">Nombre Matriz</label>
+                    <select id="matrizLocal" class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="0">Seleccione una Matriz</option>
+                        {% for matriz in matrices %}
+                            <option value="{{ matriz['id'] }}">{{ matriz['nombre'] }}</option>
+                        {% endfor %}
+                    </select>    
+                </div>
+                <div class="px-1 py-1">
+                    <label id="idLocal" for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">ID</label>
+                    <button onclick="guardarLocal()" type="button" class="px-5 py-2.5 gap-1 text-sm font-medium text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg x-bind:class="px-2 text-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
+                            <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
+                            <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
+                        </svg>
+                        Guardar
+                    </button>
+                </div>   
+            </div>
+        </div>
+        <div id="formPventa" class="hidden formularioUser">
+            <button onclick="esconderLosFormularios()" class="m-4">
+                <svg class="text-red-800" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+                </svg>
+            </button>
+            <div class="grid grid-cols-4">
+                <div class="px-1 py-1">
+                    <label for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">Nombre P. Venta</label>
+                    <input type="text" id="nombrePventa" class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+                <div class="px-1 py-1">
+                    <label for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">Nombre Matriz</label>
+                    <select onchange="activate()" id="matrizPventa" class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option  value="0">Seleccione una Matriz</option>
+                        {% for matriz in matrices %}
+                            <option value="{{ matriz['id'] }}">{{ matriz['nombre'] }}</option>
+                        {% endfor %}
+                    </select>    
+                </div>
+                <div class="px-1 py-1">
+                    <label for="small-input"  class="block mb-2 text-sm font-medium text-white dark:text-white">Nombre Local</label>
+                    <select id="LocalPventa" disabled="true" class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="0">Seleccione</option>
+                        {% for local in locales %}
+                            <option value="{{ local['id'] }}">{{ local['nombre'] }}</option>
+                        {% endfor %}
+                    </select>    
+                </div>
+                <div class="px-1 py-1">
+                    <label id="idPventa" for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">ID</label>
+                    <button onclick="guardarLocal()" type="button" class="px-5 py-2.5 gap-1 text-sm font-medium text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg x-bind:class="px-2 text-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
+                            <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
+                            <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
+                        </svg>
+                        Guardar
+                    </button>
+                </div>   
+            </div>
+        </div>
+        <div id="formUsers" class="hidden formularioUser">
+            <button onclick="esconderLosFormularios()" class="m-4">
+                <svg class="text-red-800" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+                </svg>
+            </button>
+            <div>
+                <h1 class="text-2xl font-extrabold text-center text-white">Registro de Usuarios</h1>
+            </div>
+            <div class="grid grid-cols-2">
+                <div class="px-1 ">
+                    <label for="nombreUsuario" class="block mb-2 text-sm font-medium text-white dark:text-white">Nombre de Usuario</label>
+                    <input type="text" id="nombreUsuario" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Javier" required />
+                </div>
+                <div class="px-1 ">
+                    <label for="email" class="block mb-2 text-sm font-medium text-white dark:text-white">Email de Usuario</label>
+                    <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="javier.garcia@sav.com" required />
+                </div>
+                <div class="px-1 ">
+                    <label for="first_name" class="block mb-2 text-sm font-medium text-white dark:text-white">Nombre Matriz</label>
+                    <select onchange="activarlocales()" id="matrizUsuario" class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option  value="0">Seleccione una Matriz</option>
+                        {% for matriz in matrices %}
+                            <option value="{{ matriz['id'] }}">{{ matriz['nombre'] }}</option>
+                        {% endfor %}
+                    </select>    
+                </div>
+                <div class="px-1 ">
+                    <label for="small-input"  class="block mb-2 text-sm font-medium text-white dark:text-white">Nombre Local</label>
+                    <select onclick="activarPventa()" id="LocalUsuario" disabled="true" class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="0">Seleccione</option>
+                        {% for local in locales %}
+                            <option value="{{ local['id'] }}">{{ local['nombre'] }}</option>
+                        {% endfor %}
+                    </select>    
+                </div>
+                <div class="px-1 ">
+                    <label for="small-input"  class="block mb-2 text-sm font-medium text-white dark:text-white">Punto de Venta</label>
+                    <select id="PventaUsuario" disabled="true" class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="0">Seleccione</option>
+                        {% for ventas in p_venta %}
+                            <option value="{{ ventas['id'] }}">{{ ventas['npv'] }}</option>
+                        {% endfor %}
+                    </select>    
+                </div>
+                <div class="px-1 ">
+                    <label for="small-input"  class="block mb-2 text-sm font-medium text-white dark:text-white">Rol de Usuario</label>
+                    <select id="roleuser" class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="0">Seleccione</option>
+                        {% for rol in roles %}
+                            <option value="{{ rol['id'] }}">{{ rol['role_name'] }}</option>
+                        {% endfor %}
+                    </select>    
+                </div>
+                <div class="px-1 ">
+                    <label for="first_name" class="block mb-2 text-sm font-medium text-white dark:text-white">Contraseña</label>
+                    <input type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Contraseña" required />
+                </div>
+                <div class="px-1 ">
+                    <label for="first_name" class="block mb-2 text-sm font-medium text-white dark:text-white">confirma Contraseña</label>
+                    <input type="text" id="Cpassword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Confirma Contraseña" required />
+                </div>
+                <div class="px-1 py-1">
+                    <label id="idUsers" for="small-input" class="block mb-2 text-sm font-medium text-white dark:text-white">ID</label>
+                    <button onclick="guardarUsuario()" type="button" class="px-5 py-2.5 gap-1 text-sm font-medium text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg x-bind:class="px-2 text-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
+                            <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
+                            <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
+                        </svg>
+                        Guardar
+                    </button>
+                </div>   
+            </div>
+        </div>
+    </div>
+    <div id="Locales" class="p-4 tabcontent"> 
+        <div>
+            <div class="w-full">
+                <div>
+                    <button onclick="AbrirModalMatriz()" class="px-5 py-2.5 gap-1 text-sm font-medium text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                        </svg>
+                        Matriz
+                    </button>
+                    <button onclick="abrirModalLocal()" class="px-5 py-2.5 gap-1 text-sm font-medium text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                        </svg>
+                        Local
+                    </button>
+                    <button onclick="abrirModalPventa()" class="px-5 py-2.5 gap-1 text-sm font-medium text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                        </svg>
+                        Punto de Venta
+                    </button>
+                </div>
+                <div class="w-full p-4 text-black bg-white rounded shadow-md">
+                    <table class="w-full text-left table-auto bg-slate-400">
+                        <thead  class="bg-gray-800 rounded">
+                            <tr class="text-center text-white rounded-sm">
+                                <th class="px-4 py-2">ID</th>
+                                <th class="px-4 py-2">Nombre</th>
+                                <th class="px-4 py-2">Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align: center;" id="diarios-table-body">
+                            <!-- Los datos se agregarán aquí dinámicamente -->
+                            {% for matriz in matrices %}
+                                <tr onclick="masMatriz({{ matriz['id']}})">
+                                    <td class="px-4 py-2">{{ matriz['id'] }}</td>
+                                    <td class="px-4 py-2">{{ matriz['nombre'] }}</td>
+                                    <td style="display: flex; justify-content: center; padding:15px" class="px-4">
+                                        <button onclick="EditarDistrito({{ matriz['id'] }})">
+                                            <svg class="text-blue-800 mx-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                            </svg>
+                                        </button>
+                                        <button onclick="EliminarDistrito({{ matriz['id'] }})" style="margin-left:5px">
+                                            <svg class="text-red-800 mx-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="display:none; width: 100%;" id="L-{{matriz['id']}}" class="locales">
+                                        <table style="width: 95%;">
+                                            <thead class="bg-slate-300">
+                                                <tr class="text-white bg-gray-800">
+                                                    <th>Id</th>
+                                                    <th>Nombre</th>
+                                                    <th>Accion</th>
+                                                </tr>
+                                            </thead>
+                                            <Tbody>
+                                                {% for local in locales %}
+                                                    {% if local['matriz_id'] == matriz['id'] %}
+                                                            <tr onclick="masLocal({{ local['id']}})">
+                                                                <th class="px-4 py-2">{{local['id']}}</th>
+                                                                <th class="px-4 py-2">{{local['nombre']}}</th>
+                                                                <th>
+                                                                    <button onclick="editarLocal({{ local['id'] }})">
+                                                                        <svg class="text-blue-800 mx-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                                                        </svg>
+                                                                    </button>
+                                                                    <button onclick="eliminarLocal({{ local['id'] }})" style="margin-left:5px">
+                                                                        <svg class="text-red-800 mx-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                                                        </svg>
+                                                                    </button>
+                                                                </th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3" style="display:none; width: 100%;" id="P-{{local['id']}}" class="Pventa">
+                                                                    <table style="width: 90%;">
+                                                                        <thead class="bg-slate-800">
+                                                                            <tr style="border-radius: 10px;" class = "text-white bg-gray-800">
+                                                                                <th>Id</th>
+                                                                                <th>Nombre</th>
+                                                                                <th>Accion</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <Tbody>
+                                                                            {% for ventas in p_venta %}
+                                                                                {% if ventas['local_id'] == local['id'] %}
+                                                                                        <tr>
+                                                                                            <th class="px-4 py-2">{{ventas['id']}}</th>
+                                                                                            <th class="px-4 py-2">{{ventas['npv']}}</th>
+                                                                                            <th>
+                                                                                                <button onclick="editarPventa({{ ventas['id'] }})">
+                                                                                                    <svg class="text-blue-800 mx-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                                                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                                                                                    </svg>
+                                                                                                </button>
+                                                                                                <button onclick="eliminarPventa({{ ventas['id'] }})" style="margin-left:5px">
+                                                                                                    <svg class="text-red-800 mx-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                                                                                    </svg>
+                                                                                                </button>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                {% endif %}
+                                                                            {% endfor %}
+                                                                        </Tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </Tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>    
+    </div>
+
+    <div id="GestionUsuario" class="hidden p-4 tabcontent">
+        <button onclick="mostrarModalUsuario()" class="px-5 py-2.5 gap-1 text-sm font-medium text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+            </svg>
+            Usuario
+        </button>
+        <div class="w-full">
+            <div class="w-full p-4 text-black bg-white rounded shadow-md">
+                <table class="w-full text-left table-auto bg-slate-400">
+                    <thead  class="bg-gray-800 rounded">
+                        <tr class="text-center text-white rounded-sm">
+                            <th class="px-4 py-2">ID</th>
+                            <th class="px-4 py-2">Nombre</th>
+                            <th class="px-4 py-2">Email</th>
+                            <th class="px-4 py-2">Imprime</th>
+                            <th class="px-4 py-2">Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align: center;" id="diarios-table-body">
+                        <!-- Los datos se agregarán aquí dinámicamente -->
+                        {% for user in Usuarios %}
+                            <tr>
+                                <td class="px-4 py-2">{{ user['id'] }}</td>
+                                <td class="px-4 py-2">{{ user['name'] }}</td>
+                                <td class="px-4 py-2">{{ user['email'] }}</td>
+                                <td>
+                                    <label class="inline-flex items-center mb-5 cursor-pointer">
+                                        <input onchange="updateImprime(this,{{user['id']}} )" type="checkbox" value="{{ user['print'] }}" class="sr-only peer" {% if user['print'] == 1 %}checked{% endif %}>
+                                        <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                        <span class="text-sm font-medium text-gray-900 ms-3 dark:text-gray-300"></span>
+                                    </label>
+                                </td>
+                                <td style="display: flex; justify-content: center; padding:15px" class="px-4">
+                                    <button onclick="editarUsuario({{ user['id'] }})">
+                                        <svg class="text-blue-800 mx-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l
+                                            2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                        </svg>
+                                    </button>
+                                    <button onclick="eliminarUsuario({{ user['id'] }})" style="margin-left:5px">
+                                        <svg class="text-red-800 mx-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a.2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>        
+    </div>
+
+</main>

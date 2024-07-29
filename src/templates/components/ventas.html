@@ -1,0 +1,133 @@
+<main class="p-4 bg-gray-800 rounded shadow-md">
+    <div class="flex mb-4 border-b border-gray-300 tab">
+        <button class="px-4 py-2 tablinks text-cyan-50 hover:text-blue-500 focus:outline-none active" onclick="openTab(event, 'Ventas')">Ventas</button>
+        <button class="px-4 py-2 tablinks text-cyan-50 hover:text-blue-500 focus:outline-none" onclick="openTab(event, 'Pagos')">Pagos</button>
+    </div>
+
+    <div id="Ventas" class="p-4 tabcontent">
+        
+        <div class="p-4 bg-white rounded-lg shadow-md">
+            <div class="container px-4 py-8 mx-auto">   
+                <div class="flex flex-col md:flex-row md:space-x-4">
+                    <!-- Formulario de ventas -->
+                    <div style="min-width: 250px;" class="w-full p-3 mb-4 bg-white rounded md:mb-0 md:w-1/3">
+                        <div class="grid grid-cols-2 gap-2 mb-4">
+                            <div class="mb-4">
+                                <label for="datep" class="block mb-1 text-gray-700">Fecha</label>
+                                <input type="date" id="datep" class="w-full p-2 border rounded" onchange="buscarTipo()">
+                            </div>
+                            <div class="mb-4">
+                                <label for="game-type" class="block mb-1 text-gray-700">Tipo</label>
+                                <select id="game-type" class="w-full p-2 border rounded">
+                                    <option value="no">Selecciona Fecha</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 mb-4">
+                            <div>
+                                <label for="game" class="block mb-1 text-gray-700">Juego</label>
+                                <input type="number" id="game" class="w-full p-2 border rounded" step="0">
+                            </div>
+                            <div>
+                                <label for="quantity" class="block mb-1 text-gray-700">Cantidad</label>
+                                <input type="number" id="quantity" value="1" class="w-full p-2 border rounded">
+                            </div>
+                            <div>
+                                <label for="value" class="block mb-1 text-gray-700">Valor</label>
+                                <input type="number" id="value" value="0.00" class="w-full p-2 border rounded">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-4 gap-3 mb-4">
+                            <button type="button" class="p-2 text-white bg-gray-800 rounded" onclick="setValue(0.25)">0.25</button>
+                            <button type="button" class="p-2 text-white bg-gray-800 rounded" onclick="setValue(0.50)">0.50</button>
+                            <button type="button" class="p-2 text-white bg-gray-800 rounded" onclick="setValue(1.00)">1.00</button>
+                            <button type="button" class="p-2 text-white bg-gray-800 rounded" onclick="setValue(2.00)">2.00</button>
+                            <button type="button" class="p-2 text-white bg-gray-800 rounded" onclick="setValue(3.00)">3.00</button>
+                            <button type="button" class="p-2 text-white bg-gray-800 rounded" onclick="setValue(5.00)">5.00</button>
+                            <button type="button" class="p-2 text-white bg-gray-800 rounded" onclick="setValue(10.00)">10.00</button>
+                            <button type="button" class="p-2 text-white bg-gray-800 rounded" onclick="setValue(20.00)">20.00</button>
+                        </div>
+                        <button class="w-full p-2 text-white bg-gray-800 rounded" onclick="addSaleDetail()">Agregar
+                            <div id="loadingSpinner" class="loader" style="display: none;"></div>
+                        </button>
+                    </div> 
+
+                    <!-- Tabla de Límites -->
+                    <table class="bg-white rounded min-w-2">
+                        <thead class="bg-red-400 rounded-sm">
+                            <tr>
+                                <th class="px-4 py-2 rounded">Límite</th>
+                            </tr>
+                        </thead>
+                        <tbody id="limites-table-body" class="flex flex-col text-center">
+                            <!-- Los límites se agregarán aquí dinámicamente -->
+                        </tbody>
+                    </table>
+
+                    <!-- Tabla de detalles de ventas -->
+                    <div class="w-full md:w-2/3">
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <span id="total" class="text-lg font-semibold">Total:</span>
+                            <button class="px-6 py-2 text-white bg-gray-800 rounded" onclick='openModal()'>Pagar</button>
+                        </div>
+                        <div id="pagination" class="flex justify-center mt-4 bg-teal-950">
+                            <!-- Botones de paginación se agregarán aquí dinámicamente -->
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white rounded shadow-md">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                        <th class="px-4 py-2">Fecha</th>
+                                        <th class="px-4 py-2">Tipo</th>
+                                        <th class="px-4 py-2">Juego</th>
+                                        <th class="px-4 py-2">Cantidad</th>
+                                        <th class="px-4 py-2">Valor</th>
+                                        <th class="px-4 py-2">Total</th>
+                                        <th class="px-4 py-2">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sales-details">
+                                    <!-- Los detalles de ventas se agregarán aquí dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="Pagos" class="hidden p-4 tabcontent">
+        <div>
+            <h3 class="mb-4 text-xl font-semibold text-cyan-50">Formulario de Pagos</h3>
+            
+            <div class="mb-4 FormularioPago">
+                <input type="text" class="p-2 mb-2 border border-gray-300 rounded datesize" placeholder="Factura" id="pagofactura">
+                <input class="px-4 py-2 font-bold text-white bg-blue-500 rounded botonpagar hover:bg-blue-700" type="button" value="Buscar" onclick="buscarPago()">
+                <p style="color: antiquewhite; font-size:medium" id="consulta"></p>
+            </div>
+        </div>
+        <div class="overflow-x-auto bg-white rounded shadow-md tableShop">
+            <table id="historipagos" class="min-w-full bg-white">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-2">Id</th>
+                        <th class="px-4 py-2">Factura</th>
+                        <th class="px-4 py-2">Numero</th>
+                        <th class="px-4 py-2">Fecha</th>
+                        <th class="px-4 py-2">Premio</th>
+                        <th class="px-4 py-2">Accion</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;" id="Pagos-premios">
+                    <!-- Filas de datos se agregarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+</main>
